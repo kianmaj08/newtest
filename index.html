@@ -1,0 +1,88 @@
+<!doctype html>
+<html lang="de" data-theme="light">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Oberstufe.site</title>
+  <meta name="description" content="Single-Page-Website mit Hero, Sakura und Liquid-Glass-Panels.">
+  <meta name="color-scheme" content="light dark">
+  <link rel="preload" as="image" href="assets/SG010_6.webp">
+  <link rel="stylesheet" href="assets/styles.css">
+</head>
+<body>
+  <a class="skip-link" href="#main">Zum Inhalt springen</a>
+
+  <!-- Loader -->
+  <div id="loader" role="status" aria-live="polite" aria-atomic="true">
+    <div class="loader-backdrop"></div>
+    <div class="pulse" aria-hidden="true"></div>
+    <p class="loader-text">Lade Erlebnis…</p>
+  </div>
+
+  <!-- Cursor glow -->
+  <div id="cursor-glow" aria-hidden="true"></div>
+
+  <!-- Sakura decor -->
+  <div id="sakura" class="sakura" aria-hidden="true"></div>
+
+  <header class="site-header">
+    <nav class="nav">
+      <a class="brand" href="#" aria-label="Startseite">Oberstufe.site</a>
+      <div class="nav-actions">
+        <button id="sakuraToggle" class="btn btn-ghost" aria-pressed="true" aria-label="Sakura an/aus">
+          Sakura: an
+        </button>
+        <button id="themeToggle" class="btn" aria-label="Theme wechseln (Hell/Dunkel)">
+          Theme
+        </button>
+      </div>
+    </nav>
+  </header>
+
+  <main id="main">
+    <section class="hero" id="hero" aria-label="Hero">
+      <div class="hero-overlay"></div>
+      <div class="hero-content">
+        <h1 class="title shimmer">Willkommen auf Oberstufe.site</h1>
+        <p class="subtitle">
+          Ein Projekt von Kian Majidian, Konstantin Ihl, Basit Rezai, Kamil Köse, Mark Naujoks und Hugo Alvarez Czap
+        </p>
+      </div>
+    </section>
+
+    <section class="panels" aria-label="Liquid Glass Panels">
+      <div class="panel card" tabindex="0">
+        <h2>Panel 1</h2>
+        <p>Platzhalter für Inhalte.</p>
+      </div>
+      <div class="panel card" tabindex="0">
+        <h2>Panel 2</h2>
+        <p>Platzhalter für Inhalte.</p>
+      </div>
+      <div class="panel card" tabindex="0">
+        <h2>Panel 3</h2>
+        <p>Platzhalter für Inhalte.</p>
+      </div>
+      <div class="panel card" tabindex="0">
+        <h2>Panel 4</h2>
+        <p>Platzhalter für Inhalte.</p>
+      </div>
+      <div class="panel card" tabindex="0">
+        <h2>Panel 5</h2>
+        <p>Platzhalter für Inhalte.</p>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <nav class="footer-nav" aria-label="Footer">
+      <a href="#" class="link">Impressum</a>
+      <a href="#" class="link">Datenschutz</a>
+      <a href="#" class="link">Kontakt</a>
+    </nav>
+    <p class="small">© <span id="year"></span> Oberstufe.site</p>
+  </footer>
+
+  <script src="assets/app.js" defer></script>
+</body>
+</html>
