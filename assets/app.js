@@ -94,8 +94,31 @@
   // Restore sakura pref
   setSakura(localStorage.getItem("sakura") !== "off");
 
+  // Swoosh Intro: kurzer Schwall Blüten zu Beginn
+  function swooshBurst() {
+    if (reduceMotion || sakuraLayer.classList.contains('off')) return;
+    const total = Math.min(80, Math.max(36, Math.floor(window.innerWidth / 12)));
+    for (let i = 0; i < total; i++) {
+      const petal = document.createElement('span');
+      petal.className = 'petal';
+      const size = 10 + Math.random()*18;
+      const dur = 2 + Math.random()*2.2; // 2–4.2s schnell
+      const delay = Math.random() * .6;  // kurzer, gestaffelter Start
+      petal.style.setProperty('--size', size + 'px');
+      petal.style.setProperty('--dur', dur + 's');
+      // Start weiter rechts oben
+      petal.style.left = (window.innerWidth * (0.95 + Math.random()*0.15)) + 'px';
+      petal.style.top = (-window.innerHeight * (0.2 + Math.random()*0.25)) + 'px';
+      // Ersetze Flow-Animation temporär durch "swooshAcross"
+      petal.style.animationName = 'swooshAcross, windSway';
+      petal.style.animationDelay = delay + 's, ' + (delay * .7) + 's';
+      sakuraLayer.appendChild(petal);
+      setTimeout(() => petal.remove(), (dur + delay + 0.5) * 1000);
+    }
+  }
+
   // Loader → reveal sequence
-  document.addEventListener("DOMContentLoaded", () => {
+  document.addEventListener("DOMContentLoaded", () => { swooshBurst();
     // small delay for effect
     setTimeout(() => {
       loader.classList.add("hidden");
