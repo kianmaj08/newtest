@@ -56,19 +56,19 @@
   function spawnSakura(count = 24) {
     sakuraLayer.innerHTML = "";
     const vw = Math.max(document.documentElement.clientWidth || 0, window.innerWidth || 0);
+    const vh = Math.max(document.documentElement.clientHeight || 0, window.innerHeight || 0);
     for (let i = 0; i < count; i++) {
       const petal = document.createElement("span");
       petal.className = "petal";
-      const size = Math.random() * 18 + 10; // 10-28px
-      const dur = Math.random() * 6 + 8;    // 8-14s
-      const startX = Math.random() * vw;
-      const delay = Math.random() * -dur;   // start in different phases
+      const size = Math.random() * 20 + 12; // 12-32px
+      const dur = Math.random() * 6 + 9;    // 9-15s
+      const delay = Math.random() * -dur;   // start spread
       petal.style.setProperty("--size", `${size}px`);
       petal.style.setProperty("--dur", `${dur}s`);
-      petal.style.left = `${startX}px`;
-      petal.style.top = `${Math.random() * -60 - 20}px`;
+      // Start am rechten oberen Rand leicht zufällig
+      petal.style.left = `${vw * (0.85 + Math.random()*0.2)}px`;
+      petal.style.top = `${-vh * (0.05 + Math.random()*0.2)}px`;
       petal.style.animationDelay = `${delay}s, ${delay * .7}s`;
-      petal.style.transform = `translateY(-20vh) rotate(${Math.random()*360}deg)`;
       sakuraLayer.appendChild(petal);
     }
   }
@@ -131,7 +131,89 @@
     });
   });
 
+  
+  // Globale Suche mit Highlighting
+  const form = document.getElementById('searchForm');
+  const input = document.getElementById('searchInput');
+  const status = document.getElementById('search-status');
+
+  function clearMarks() {
+    document.querySelectorAll('mark.search-hit').forEach(m => {
+      const parent = m.parentNode;
+      parent.replaceChild(document.createTextNode(m.textContent), m);
+      parent.normalize();
+    });
+  }
+
+  function highlight(container, term) {
+    const walker = document.createTreeWalker(container, NodeFilter.SHOW_TEXT, {
+      acceptNode: n => n.parentElement && !['SCRIPT','STYLE'].includes(n.parentElement.tagName) && n.nodeValue.trim() ? NodeFilter.FILTER_ACCEPT : NodeFilter.FILTER_REJECT
+    });
+    let hits = 0;
+    const regex = new RegExp(term, 'gi');
+    const nodes = [];
+    while (walker.nextNode()) nodes.push(walker.currentNode);
+    nodes.forEach(node => {
+      const parts = node.nodeValue.split(regex);
+      if (parts.length > 1) {
+        const frag = document.createDocumentFragment();
+        let lastIndex = 0;
+        node.nodeValue.replace(regex, (match, index) => {
+          frag.appendChild(document.createTextNode(node.nodeValue.slice(lastIndex, index)));
+          const mark = document.createElement('mark');
+          mark.className = 'search-hit';
+          mark.textContent = match;
+          frag.appendChild(mark);
+          lastIndex = index + match.length;
+          hits++;
+        });
+        frag.appendChild(document.createTextNode(node.nodeValue.slice(lastIndex)));
+        node.parentNode.replaceChild(frag, node);
+      }
+    });
+    return hits;
+  }
+
+  form.addEventListener('submit', (e) => {
+    e.preventDefault();
+    const q = input.value.trim();
+    clearMarks();
+    if (!q) { status.textContent = 'Suche geleert.'; return; }
+    const hits = highlight(document.body, q);
+    status.textContent = hits ? `Treffer: ${hits}` : 'Keine Treffer.';
+    const first = document.querySelector('mark.search-hit');
+    if (first) first.scrollIntoView({ behavior: reduceMotion ? 'auto' : 'smooth', block: 'center' });
+  });
+
   // Accessibility: close glow on keyboard use
   window.addEventListener("keydown", () => { cursorGlow.style.opacity = 0; }, { once: true });
+
+  // Periodische Blätter alle 10–30s (2–3 Stück)
+  function randomBetween(min, max) { return Math.random() * (max - min) + min; }
+  function spawnFlyby() {
+    if (reduceMotion || sakuraLayer.classList.contains("off")) return;
+    const n = Math.floor(randomBetween(2, 4));
+    for (let i = 0; i < n; i++) {
+      const petal = document.createElement("span");
+      petal.className = "petal";
+      const size = randomBetween(14, 28);
+      const dur = randomBetween(6, 10);
+      const delay = randomBetween(-1, 0);
+      petal.style.setProperty("--size", `${size}px`);
+      petal.style.setProperty("--dur", `${dur}s`);
+      petal.style.left = `${window.innerWidth * (0.9 + Math.random()*0.1)}px`;
+      petal.style.top = `${-window.innerHeight * (0.1 + Math.random()*0.15)}px`;
+      petal.style.animationDelay = `${delay}s, ${delay * .7}s`;
+      sakuraLayer.appendChild(petal);
+      // Entfernen nach Ende
+      setTimeout(() => petal.remove(), (dur + 0.5) * 1000);
+    }
+    scheduleFlyby();
+  }
+  function scheduleFlyby() {
+    const t = randomBetween(10000, 30000);
+    setTimeout(spawnFlyby, t);
+  }
+  scheduleFlyby();
 
 })();

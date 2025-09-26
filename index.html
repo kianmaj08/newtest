@@ -28,7 +28,7 @@
   <header class="site-header">
     <nav class="nav">
       <a class="brand" href="#" aria-label="Startseite">Oberstufe.site</a>
-      <div class="nav-actions">
+      <div class="nav-actions">        <form id="searchForm" role="search" class="search" autocomplete="off">          <input id="searchInput" class="search-input" type="search" placeholder="Suche…" aria-label="Website durchsuchen">        </form>
         <button id="sakuraToggle" class="btn btn-ghost" aria-pressed="true" aria-label="Sakura an/aus">
           Sakura: an
         </button>
@@ -40,10 +40,11 @@
   </header>
 
   <main id="main">
+    <div id="search-status" class="visually-hidden" aria-live="polite"></div>
     <section class="hero" id="hero" aria-label="Hero">
       <div class="hero-overlay"></div>
       <div class="hero-content">
-        <h1 class="title shimmer">Willkommen auf Oberstufe.site</h1>
+        <h1 class="title">Willkommen auf Oberstufe.site</h1>
         <p class="subtitle">
           Ein Projekt von Kian Majidian, Konstantin Ihl, Basit Rezai, Kamil Köse, Mark Naujoks und Hugo Alvarez Czap
         </p>

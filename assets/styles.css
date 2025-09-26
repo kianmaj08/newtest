@@ -288,3 +288,69 @@ html[data-theme="light"] #cursor-glow { mix-blend-mode: multiply; background: ra
 :focus-visible { outline: var(--outline); outline-offset: 2px; }
 
 /* Navbar blur stronger on scroll handled via .scrolled */
+
+/* Fixed background for hero (parallax-like) */
+.hero {
+  background-attachment: fixed;
+}
+.hero .hero-content { 
+  margin-top: -8vh; /* Titel etwas höher */
+}
+
+/* Remove previous shimmer leftovers (if any) */
+.shimmer::after { display: none !important; }
+
+/* Glassier design */
+.card, .nav, .btn, .search-input {
+  backdrop-filter: var(--blur);
+}
+.card {
+  background: linear-gradient(180deg, rgba(255,255,255,0.18), rgba(255,255,255,0.10));
+  border: 1px solid rgba(255,255,255,0.45);
+  box-shadow: 0 30px 60px rgba(0,0,0,0.35), inset 0 1px 0 rgba(255,255,255,0.25);
+}
+html[data-theme="light"] .card {
+  background: linear-gradient(180deg, rgba(255,255,255,0.55), rgba(255,255,255,0.35));
+}
+
+/* Search */
+.search { display: flex; align-items: center; }
+.search-input {
+  width: min(46vw, 420px);
+  padding: .55rem .9rem;
+  border-radius: 16px;
+  border: 1px solid var(--panel-border);
+  background: color-mix(in hsl, var(--panel), transparent 10%);
+  color: var(--text);
+  outline: none;
+  transition: box-shadow .2s ease, background .2s ease;
+  box-shadow: inset 0 1px 0 rgba(255,255,255,.15), 0 10px 20px rgba(0,0,0,.2);
+}
+.search-input::placeholder { color: color-mix(in hsl, var(--text-dim), transparent 20%); }
+.search-input:focus-visible { outline: var(--outline); }
+.visually-hidden { position: absolute !important; clip: rect(1px,1px,1px,1px); padding:0; border:0; height:1px; width:1px; overflow:hidden; }
+
+mark.search-hit {
+  background: #ffed99;
+  color: inherit;
+  border-radius: 4px;
+  padding: 0 2px;
+}
+
+/* New Sakura path: start top-right → drift to mid-left/bottom with wind sway */
+@keyframes flowAcross {
+  0%   { transform: translate(110vw, -20vh) rotate(0deg); }
+  30%  { transform: translate(70vw, 10vh) rotate(90deg); }
+  60%  { transform: translate(40vw, 30vh) rotate(180deg); }
+  100% { transform: translate(10vw, 60vh) rotate(360deg); }
+}
+@keyframes windSway {
+  0% { translate: 0 0; }
+  50% { translate: -20px 6px; }
+  100% { translate: 0 0; }
+}
+.sakura .petal {
+  background: url('sakura-leaf.svg') center/contain no-repeat;
+  animation: flowAcross var(--dur) linear forwards, windSway calc(var(--dur)*.9) ease-in-out infinite;
+  opacity: .9;
+}
