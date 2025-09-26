@@ -95,7 +95,7 @@
   setSakura(localStorage.getItem("sakura") !== "off");
 
   // Loader → reveal sequence
-  window.addEventListener("load", () => {
+  document.addEventListener("DOMContentLoaded", () => {
     // small delay for effect
     setTimeout(() => {
       loader.classList.add("hidden");
@@ -103,7 +103,9 @@
       heroContent.style.animationPlayState = "running";
       // focus access
       $(".brand").focus({ preventScroll: true });
-    }, 600);
+    }, 400);
+    // Fallback: falls irgendwas hängt, Loader nach 3s sicher ausblenden
+    setTimeout(() => loader.classList.add("hidden"), 3000);
   });
 
   // Liquid Glass Panel interactivity: tilt on hover

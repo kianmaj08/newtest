@@ -127,7 +127,7 @@ body {
   position: relative;
   min-height: 100svh;
   display: grid; place-items: center;
-  background: center / cover no-repeat url('assets/SG010_6.webp');
+  background: center / cover no-repeat url('SG010_6.webp');
 }
 .hero .hero-overlay {
   position: absolute; inset: 0;
